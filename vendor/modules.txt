@@ -295,7 +295,7 @@ github.com/nelsonken/gomf
 # github.com/oklog/run v1.1.0
 ## explicit; go 1.13
 github.com/oklog/run
-# github.com/olahol/melody v1.1.4
+# github.com/olahol/melody v1.2.1
 ## explicit; go 1.19
 github.com/olahol/melody
 # github.com/paulrosania/go-charset v0.0.0-20190326053356-55c9d7a5834c
