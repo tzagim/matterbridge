@@ -32,7 +32,7 @@ require (
 	github.com/mdp/qrterminal v1.0.1
 	github.com/mitchellh/mapstructure v1.5.0
 	github.com/nelsonken/gomf v0.0.0-20190423072027-c65cc0469e94
-	github.com/olahol/melody v1.1.4
+	github.com/olahol/melody v1.2.1
 	github.com/paulrosania/go-charset v0.0.0-20190326053356-55c9d7a5834c
 	github.com/rs/xid v1.5.0
 	github.com/russross/blackfriday v2.0.0+incompatible
