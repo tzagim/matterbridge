@@ -48,7 +48,7 @@ require (
 	github.com/zfjagann/golang-ring v0.0.0-20220330170733-19bcea1b6289
 	go.mau.fi/whatsmeow v0.0.0-20240520180327-81f8f07f1dfb
 	golang.org/x/image v0.17.0
-	golang.org/x/oauth2 v0.20.0
+	golang.org/x/oauth2 v0.21.0
 	golang.org/x/text v0.16.0
 	gomod.garykim.dev/nc-talk v0.3.0
 	google.golang.org/protobuf v1.33.0
