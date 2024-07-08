@@ -27,7 +27,7 @@ require (
 	github.com/matterbridge/logrus-prefixed-formatter v0.5.3-0.20200523233437-d971309a77ba
 	github.com/matterbridge/matterclient v0.0.0-20240523235056-57f299489168
 	github.com/matterbridge/telegram-bot-api/v6 v6.5.0
-	github.com/mattermost/mattermost/server/public v0.1.4
+	github.com/mattermost/mattermost/server/public v0.1.5
 	github.com/mattn/godown v0.0.1
 	github.com/mdp/qrterminal v1.0.1
 	github.com/mitchellh/mapstructure v1.5.0
