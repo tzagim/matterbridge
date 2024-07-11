@@ -35,8 +35,8 @@ github.com/Rhymen/go-whatsapp/binary/token
 github.com/Rhymen/go-whatsapp/crypto/cbc
 github.com/Rhymen/go-whatsapp/crypto/curve25519
 github.com/Rhymen/go-whatsapp/crypto/hkdf
-# github.com/SevereCloud/vksdk/v2 v2.16.1
-## explicit; go 1.18
+# github.com/SevereCloud/vksdk/v2 v2.17.0
+## explicit; go 1.21
 github.com/SevereCloud/vksdk/v2
 github.com/SevereCloud/vksdk/v2/api
 github.com/SevereCloud/vksdk/v2/events
@@ -116,11 +116,11 @@ github.com/google/uuid
 # github.com/gopackage/ddp v0.0.3
 ## explicit; go 1.17
 github.com/gopackage/ddp
-# github.com/gorilla/schema v1.4.0
+# github.com/gorilla/schema v1.4.1
 ## explicit; go 1.20
 github.com/gorilla/schema
-# github.com/gorilla/websocket v1.5.1
-## explicit; go 1.20
+# github.com/gorilla/websocket v1.5.3
+## explicit; go 1.12
 github.com/gorilla/websocket
 # github.com/harmony-development/shibshib v0.0.0-20220101224523-c98059d09cfa
 ## explicit; go 1.15
@@ -183,7 +183,7 @@ github.com/keybase/go-keybase-chat-bot/kbchat/types/chat1
 github.com/keybase/go-keybase-chat-bot/kbchat/types/gregor1
 github.com/keybase/go-keybase-chat-bot/kbchat/types/keybase1
 github.com/keybase/go-keybase-chat-bot/kbchat/types/stellar1
-# github.com/klauspost/compress v1.17.7
+# github.com/klauspost/compress v1.17.9
 ## explicit; go 1.20
 github.com/klauspost/compress
 github.com/klauspost/compress/fse
