@@ -10,7 +10,6 @@ linters:
     - errcheck
     - govet
     - golint
-    - gofmt
     - goimports
     - gocyclo
     - maligned
