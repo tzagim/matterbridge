@@ -4,14 +4,22 @@ run:
   issues-exit-code: 1
   tests: true
   build-tags: ["whatsappmulti", "nomsteams"]
+  timeout: 5m
+
+issues:
+  exclude-dirs:
+    - gateway/bridgemap$
+
+formatters:
+  - colored-line-number
 
 linters:
   enable:
     - errcheck
     - govet
-    - golint
+    - revive
+    - fieldalignment
     - gocyclo
-    - maligned
     - dupl
     - goconst
     - depguard
