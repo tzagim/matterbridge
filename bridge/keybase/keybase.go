@@ -97,10 +97,22 @@ func (b *Bkeybase) Send(msg config.Message) (string, error) {
 	}
 
 	// Send regular message
-	text := msg.Username + msg.Text
-	resp, err := b.kbc.SendMessageByTeamName(b.team, &b.channel, text)
+	if msg.Username == "" {
+		msg.Username = "UnknownUser"
+	}
+	if msg.Text == "" {
+		msg.Text = "(empty message)"
+	}
+
+	// Format the message to include username
+	formattedMsg := fmt.Sprintf("%s %s", msg.Username, msg.Text)
+	resp, err := b.kbc.SendMessageByTeamName(b.team, &b.channel, formattedMsg)
 	if err != nil {
 		return "", err
 	}
+
+	// Check if the response contains a valid message ID
+	if resp.Result == nil || resp.Result.MessageID == nil {
+		return "", nil
+	}
 	return strconv.Itoa(int(*resp.Result.MessageID)), err
-}
