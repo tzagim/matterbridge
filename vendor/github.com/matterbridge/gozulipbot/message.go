@@ -36,7 +36,6 @@ type EventMessage struct {
 	SenderShortName  string           `json:"sender_short_name"`
 	Subject          string           `json:"subject"`
 	SubjectLinks     []interface{}    `json:"subject_links"`
-	StreamID         int              `json:"stream_id"`
 	Timestamp        int              `json:"timestamp"`
 	Type             string           `json:"type"`
 	Queue            *Queue           `json:"-"`
@@ -181,23 +180,10 @@ func (b *Bot) constructMessageRequest(m Message) (*http.Request, error) {
 	return b.constructRequest("POST", "messages", values.Encode())
 }
 
-func (b *Bot) UpdateMessage(id string, content string) (*http.Response, error) {
-	//mid, _ := strconv.Atoi(id)
-	values := url.Values{}
-	values.Set("content", content)
-	req, err := b.constructRequest("PATCH", "messages/"+id, values.Encode())
-	if err != nil {
-		return nil, err
-	}
-	return b.Client.Do(req)
-}
-
 // React adds an emoji reaction to an EventMessage.
 func (b *Bot) React(e EventMessage, emoji string) (*http.Response, error) {
-	requestURL := fmt.Sprintf("messages/%d/reactions", e.ID)
-	values := url.Values{}
-	values.Set("emoji_name", emoji)
-	req, err := b.constructRequest("POST", requestURL, values.Encode())
+	url := fmt.Sprintf("messages/%d/emoji_reactions/%s", e.ID, emoji)
+	req, err := b.constructRequest("PUT", url, "")
 	if err != nil {
 		return nil, err
 	}
@@ -206,10 +192,8 @@ func (b *Bot) React(e EventMessage, emoji string) (*http.Response, error) {
 
 // Unreact removes an emoji reaction from an EventMessage.
 func (b *Bot) Unreact(e EventMessage, emoji string) (*http.Response, error) {
-	requestURL := fmt.Sprintf("messages/%d/reactions", e.ID)
-	values := url.Values{}
-	values.Set("emoji_name", emoji)
-	req, err := b.constructRequest("DELETE", requestURL, values.Encode())
+	url := fmt.Sprintf("messages/%d/emoji_reactions/%s", e.ID, emoji)
+	req, err := b.constructRequest("DELETE", url, "")
 	if err != nil {
 		return nil, err
 	}

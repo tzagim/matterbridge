@@ -1,7 +1,6 @@
 package gozulipbot
 
 import (
-	"bytes"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
@@ -14,12 +13,10 @@ import (
 )
 
 var (
-	HeartbeatError     = fmt.Errorf("EventMessage is a heartbeat")
-	UnauthorizedError  = fmt.Errorf("Request is unauthorized")
-	BackoffError       = fmt.Errorf("Too many requests")
-	BadEventQueueError = fmt.Errorf("BAD_EVENT_QUEUE_ID error")
-	UnknownError       = fmt.Errorf("Error was unknown")
-	NoJSONError        = fmt.Errorf("No JSON in body found")
+	HeartbeatError    = fmt.Errorf("EventMessage is a heartbeat")
+	UnauthorizedError = fmt.Errorf("Request is unauthorized")
+	BackoffError      = fmt.Errorf("Too many requests")
+	UnknownError      = fmt.Errorf("Error was unknown")
 )
 
 type Queue struct {
@@ -27,13 +24,6 @@ type Queue struct {
 	LastEventID  int    `json:"last_event_id"`
 	MaxMessageID int    `json:"max_message_id"`
 	Bot          *Bot   `json:"-"`
-}
-
-type QueueError struct {
-	Code   string `json:"code"`
-	Msg    string `json:"msg"`
-	ID     string `json:"queue_id"`
-	Result string `json:"result"`
 }
 
 func (q *Queue) EventsChan() (chan EventMessage, func()) {
@@ -59,7 +49,6 @@ func (q *Queue) EventsChan() (chan EventMessage, func()) {
 			case err == BackoffError:
 				time.Sleep(time.Until(backoffTime))
 				atomic.AddInt64(&q.Bot.Retries, 1)
-				continue
 			case err == UnauthorizedError:
 				// TODO? have error channel when ending the continuously running process?
 				return
@@ -82,7 +71,7 @@ func (q *Queue) EventsChan() (chan EventMessage, func()) {
 	return out, endFunc
 }
 
-// EventsCallback will repeatedly call the provided callback function with
+// EventsCallback will repeatedly call provided callback function with
 // the output of continual queue.GetEvents calls.
 // It returns a function which can be called to end the calls.
 //
@@ -108,7 +97,6 @@ func (q *Queue) EventsCallback(fn func(EventMessage, error)) func() {
 			case err == BackoffError:
 				time.Sleep(time.Until(backoffTime))
 				atomic.AddInt64(&q.Bot.Retries, 1)
-				continue
 			case err == UnauthorizedError:
 				// TODO? have error channel when ending the continuously running process?
 				return
@@ -143,27 +131,18 @@ func (q *Queue) GetEvents() ([]EventMessage, error) {
 	}
 	defer resp.Body.Close()
 
-	body, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		return nil, err
-	}
-
 	switch {
 	case resp.StatusCode == 429:
 		return nil, BackoffError
-	case resp.StatusCode == 401:
-		return nil, UnauthorizedError
 	case resp.StatusCode == 403:
 		return nil, UnauthorizedError
 	case resp.StatusCode >= 400:
-		if bytes.HasPrefix(body, []byte("<")) {
-			return nil, NoJSONError
-		}
-		qErr, err := q.ParseError(body)
-		if err != nil || qErr == nil {
-			return nil, UnknownError
-		}
-		return nil, BadEventQueueError
+		return nil, UnknownError
+	}
+
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return nil, err
 	}
 
 	msgs, err := q.ParseEventMessages(body)
@@ -191,26 +170,6 @@ func (q *Queue) RawGetEvents() (*http.Response, error) {
 	return q.Bot.Client.Do(req)
 }
 
-func (q *Queue) ParseError(rawEventResponse []byte) (*QueueError, error) {
-	rawResponse := map[string]json.RawMessage{}
-	err := json.Unmarshal(rawEventResponse, &rawResponse)
-	if err != nil {
-		return nil, err
-	}
-
-	if _, ok := rawResponse["code"]; ok {
-		var qErr QueueError
-		err = json.Unmarshal(rawEventResponse, &qErr)
-		if err != nil {
-			return nil, err
-		}
-		if qErr.Code == "BAD_EVENT_QUEUE_ID" {
-			return &qErr, nil
-		}
-	}
-	return nil, nil
-}
-
 func (q *Queue) ParseEventMessages(rawEventResponse []byte) ([]EventMessage, error) {
 	rawResponse := map[string]json.RawMessage{}
 	err := json.Unmarshal(rawEventResponse, &rawResponse)
@@ -225,19 +184,9 @@ func (q *Queue) ParseEventMessages(rawEventResponse []byte) ([]EventMessage, err
 	}
 
 	messages := []EventMessage{}
-	newLastEventID := 0
 	for _, event := range events {
-		// Update the lastEventID
-		var id int
-		json.Unmarshal(event["id"], &id)
-		if id > newLastEventID {
-			newLastEventID = id
-		}
-
-		// If the event is a heartbeat, there won't be any more events.
-		// So update the last event id and return a special error.
+		// if the event is a heartbeat, return a special error
 		if string(event["type"]) == `"heartbeat"` {
-			q.LastEventID = newLastEventID
 			return nil, HeartbeatError
 		}
 		var msg EventMessage
@@ -249,8 +198,6 @@ func (q *Queue) ParseEventMessages(rawEventResponse []byte) ([]EventMessage, err
 		msg.Queue = q
 		messages = append(messages, msg)
 	}
-
-	q.LastEventID = newLastEventID
 
 	return messages, nil
 }
