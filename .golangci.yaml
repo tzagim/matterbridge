@@ -6,13 +6,6 @@ run:
   build-tags: ["whatsappmulti", "nomsteams"]
   timeout: 5m
 
-issues:
-  exclude-dirs:
-    - gateway/bridgemap$
-
-formatters:
-  colored-line-number: true
-
 linters:
   enable:
     - errcheck
@@ -30,6 +23,10 @@ linters:
     - nakedret
     - prealloc
     - gocritic
+
+  exclusions:
+    paths:
+      - gateway/bridgemap
 
   settings:
     dupl:
@@ -84,3 +81,6 @@ linters:
         - valSwap
         - wrapperFunc
         - yodaStyleExpr
+
+output:
+  format: colored-line-number
