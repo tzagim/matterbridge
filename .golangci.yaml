@@ -204,7 +204,6 @@ linters:
     - promlinter
     - tagliatelle
     - errname
-    - typecheck
     - grouper
     - decorder
     - maintidx

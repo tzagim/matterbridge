@@ -116,3 +116,4 @@ func (b *Bkeybase) Send(msg config.Message) (string, error) {
 		return "", nil
 	}
 	return strconv.Itoa(int(*resp.Result.MessageID)), err
+}
