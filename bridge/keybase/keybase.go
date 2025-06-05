@@ -1,6 +1,7 @@
 package bkeybase
 
 import (
+	"fmt"
 	"io/ioutil"
 	"os"
 	"path/filepath"
@@ -112,7 +113,7 @@ func (b *Bkeybase) Send(msg config.Message) (string, error) {
 	}
 
 	// Check if the response contains a valid message ID
-	if resp.Result == nil || resp.Result.MessageID == nil {
+	if resp.Result.MessageID == nil {
 		return "", nil
 	}
 	return strconv.Itoa(int(*resp.Result.MessageID)), err
