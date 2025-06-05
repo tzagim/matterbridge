@@ -11,7 +11,7 @@ issues:
     - gateway/bridgemap$
 
 formatters:
-  - colored-line-number
+  colored-line-number: true
 
 linters:
   enable:
