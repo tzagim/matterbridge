@@ -216,8 +216,8 @@ github.com/magiconair/properties
 github.com/matterbridge/Rocket.Chat.Go.SDK/models
 github.com/matterbridge/Rocket.Chat.Go.SDK/realtime
 github.com/matterbridge/Rocket.Chat.Go.SDK/rest
-# github.com/matterbridge/go-xmpp v0.0.0-20240523230155-7154bfeb76e8
-## explicit; go 1.21.5
+# github.com/matterbridge/go-xmpp v0.0.0-20180131083630-7ec2b8b7def6
+## explicit
 github.com/matterbridge/go-xmpp
 # github.com/matterbridge/gomatrix v0.0.0-20220411225302-271e5088ea27
 ## explicit; go 1.17
