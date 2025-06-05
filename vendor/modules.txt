@@ -35,6 +35,9 @@ github.com/Rhymen/go-whatsapp/binary/token
 github.com/Rhymen/go-whatsapp/crypto/cbc
 github.com/Rhymen/go-whatsapp/crypto/curve25519
 github.com/Rhymen/go-whatsapp/crypto/hkdf
+# github.com/RocketChat/Rocket.Chat.Go.SDK v0.0.0-20240116134246-a8cbe886bab0
+## explicit; go 1.15
+github.com/RocketChat/Rocket.Chat.Go.SDK/models
 # github.com/SevereCloud/vksdk/v2 v2.17.0
 ## explicit; go 1.21
 github.com/SevereCloud/vksdk/v2
@@ -211,7 +214,7 @@ github.com/lrstanley/girc/internal/ctxgroup
 # github.com/magiconair/properties v1.8.7
 ## explicit; go 1.19
 github.com/magiconair/properties
-# github.com/matterbridge/Rocket.Chat.Go.SDK v0.0.0-20211016222428-79310a412696
+# github.com/matterbridge/Rocket.Chat.Go.SDK v0.0.0-20190122035005-cf0caa702764
 ## explicit
 github.com/matterbridge/Rocket.Chat.Go.SDK/models
 github.com/matterbridge/Rocket.Chat.Go.SDK/realtime

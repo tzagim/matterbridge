@@ -7,8 +7,8 @@ import (
 	"time"
 
 	"github.com/Jeffail/gabs"
+	"github.com/RocketChat/Rocket.Chat.Go.SDK/models"
 	"github.com/gopackage/ddp"
-	"github.com/matterbridge/Rocket.Chat.Go.SDK/models"
 )
 
 const (
@@ -17,60 +17,33 @@ const (
 	default_buffer_size = 100
 )
 
-var messageListenerAdded = false
+// LoadHistory loads history
+// Takes roomId
+//
+// https://rocket.chat/docs/developer-guides/realtime-api/method-calls/load-history
+func (c *Client) LoadHistory(roomId string) error {
+	_, err := c.ddp.Call("loadHistory", roomId)
+	if err != nil {
+		return err
+	}
 
-// NewMessage creates basic message with an ID, a RoomID, and a Msg
-// Takes channel and text
-func (c *Client) NewMessage(channel *models.Channel, text string) *models.Message {
-	return &models.Message{
+	return nil
+}
+
+// SendMessage sends message to channel
+// takes channel and message
+//
+// https://rocket.chat/docs/developer-guides/realtime-api/method-calls/send-message
+func (c *Client) SendMessage(channel *models.Channel, text string) (*models.Message, error) {
+	m := models.Message{
 		ID:     c.newRandomId(),
 		RoomID: channel.ID,
 		Msg:    text,
 	}
-}
 
-// LoadHistory loads history
-// Takes roomID
-//
-// https://rocket.chat/docs/developer-guides/realtime-api/method-calls/load-history
-func (c *Client) LoadHistory(roomID string) ([]models.Message, error) {
-	m, err := c.ddp.Call("loadHistory", roomID)
+	rawResponse, err := c.ddp.Call("sendMessage", m)
 	if err != nil {
 		return nil, err
-	}
-
-	history := m.(map[string]interface{})
-
-	document, _ := gabs.Consume(history["messages"])
-	msgs, err := document.Children()
-	if err != nil {
-		log.Printf("response is in an unexpected format: %v", err)
-		return make([]models.Message, 0), nil
-	}
-
-	messages := make([]models.Message, len(msgs))
-
-	for i, arg := range msgs {
-		messages[i] = *getMessageFromDocument(arg)
-	}
-
-	// log.Println(messages)
-
-	return messages, nil
-}
-
-// SendMessage sends message to channel
-// takes message
-//
-// https://rocket.chat/docs/developer-guides/realtime-api/method-calls/send-message
-func (c *Client) SendMessage(message *models.Message) (*models.Message, error) {
-	rawResponse, err := c.ddp.Call("sendMessage", message)
-	if err != nil {
-		return nil, err
-	}
-
-	if rawResponse == nil {
-		return nil, fmt.Errorf("rawResponse is %#v", rawResponse)
 	}
 
 	return getMessageFromData(rawResponse.(map[string]interface{})), nil
@@ -127,6 +100,7 @@ func (c *Client) StarMessage(message *models.Message) error {
 		"rid":     message.RoomID,
 		"starred": true,
 	})
+
 	if err != nil {
 		return err
 	}
@@ -144,6 +118,7 @@ func (c *Client) UnStarMessage(message *models.Message) error {
 		"rid":     message.RoomID,
 		"starred": false,
 	})
+
 	if err != nil {
 		return err
 	}
@@ -157,6 +132,7 @@ func (c *Client) UnStarMessage(message *models.Message) error {
 // https://rocket.chat/docs/developer-guides/realtime-api/method-calls/pin-message
 func (c *Client) PinMessage(message *models.Message) error {
 	_, err := c.ddp.Call("pinMessage", message)
+
 	if err != nil {
 		return err
 	}
@@ -170,6 +146,7 @@ func (c *Client) PinMessage(message *models.Message) error {
 // https://rocket.chat/docs/developer-guides/realtime-api/method-calls/unpin-messages
 func (c *Client) UnPinMessage(message *models.Message) error {
 	_, err := c.ddp.Call("unpinMessage", message)
+
 	if err != nil {
 		return err
 	}
@@ -182,14 +159,13 @@ func (c *Client) UnPinMessage(message *models.Message) error {
 //
 // https://rocket.chat/docs/developer-guides/realtime-api/subscriptions/stream-room-messages/
 func (c *Client) SubscribeToMessageStream(channel *models.Channel, msgChannel chan models.Message) error {
+
 	if err := c.ddp.Sub("stream-room-messages", channel.ID, send_added_event); err != nil {
 		return err
 	}
 
-	if !messageListenerAdded {
-		c.ddp.CollectionByName("stream-room-messages").AddUpdateListener(messageExtractor{msgChannel, "update"})
-		messageListenerAdded = true
-	}
+	//msgChannel := make(chan models.Message, default_buffer_size)
+	c.ddp.CollectionByName("stream-room-messages").AddUpdateListener(messageExtractor{msgChannel, "update"})
 
 	return nil
 }
@@ -197,8 +173,9 @@ func (c *Client) SubscribeToMessageStream(channel *models.Channel, msgChannel ch
 func getMessagesFromUpdateEvent(update ddp.Update) []models.Message {
 	document, _ := gabs.Consume(update["args"])
 	args, err := document.Children()
+
 	if err != nil {
-		//	log.Printf("Event arguments are in an unexpected format: %v", err)
+		log.Printf("Event arguments are in an unexpected format: %v", err)
 		return make([]models.Message, 0)
 	}
 
@@ -219,26 +196,6 @@ func getMessageFromData(data interface{}) *models.Message {
 
 func getMessageFromDocument(arg *gabs.Container) *models.Message {
 	var ts *time.Time
-	var attachments []models.Attachment
-
-	attachmentSrc, err := arg.Path("attachments").Children()
-	if err != nil {
-		attachments = make([]models.Attachment, 0)
-	} else {
-		attachments = make([]models.Attachment, len(attachmentSrc))
-		for i, attachment := range attachmentSrc {
-			attachments[i] = models.Attachment{
-				Timestamp:         stringOrZero(attachment.Path("ts").Data()),
-				Title:             stringOrZero(attachment.Path("title").Data()),
-				TitleLink:         stringOrZero(attachment.Path("title_link").Data()),
-				TitleLinkDownload: stringOrZero(attachment.Path("title_link_download").Data()),
-				ImageURL:          stringOrZero(attachment.Path("image_url").Data()),
-
-				AuthorName: stringOrZero(arg.Path("u.name").Data()),
-			}
-		}
-	}
-
 	date := stringOrZero(arg.Path("ts.$date").Data())
 	if len(date) > 0 {
 		if ti, err := strconv.ParseFloat(date, 64); err == nil {
@@ -250,13 +207,11 @@ func getMessageFromDocument(arg *gabs.Container) *models.Message {
 		ID:        stringOrZero(arg.Path("_id").Data()),
 		RoomID:    stringOrZero(arg.Path("rid").Data()),
 		Msg:       stringOrZero(arg.Path("msg").Data()),
-		Type:      stringOrZero(arg.Path("t").Data()),
 		Timestamp: ts,
 		User: &models.User{
 			ID:       stringOrZero(arg.Path("u._id").Data()),
 			UserName: stringOrZero(arg.Path("u.username").Data()),
 		},
-		Attachments: attachments,
 	}
 }
 

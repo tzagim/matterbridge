@@ -3,6 +3,7 @@ package realtime
 
 import (
 	"fmt"
+	"log"
 	"math/rand"
 	"net/url"
 	"strconv"
@@ -33,16 +34,14 @@ func NewClient(serverURL *url.URL, debug bool) (*Client, error) {
 
 	wsURL = fmt.Sprintf("%s://%v:%v%s/websocket", wsURL, serverURL.Hostname(), port, serverURL.Path)
 
-	//	log.Println("About to connect to:", wsURL, port, serverURL.Scheme)
+	log.Println("About to connect to:", wsURL, port, serverURL.Scheme)
 
 	c := new(Client)
 	c.ddp = ddp.NewClient(wsURL, serverURL.String())
 
-	/*
-		if debug {
-			c.ddp.SetSocketLogActive(true)
-		}
-	*/
+	if debug {
+		c.ddp.SetSocketLogActive(true)
+	}
 
 	if err := c.ddp.Connect(); err != nil {
 		return nil, err
@@ -94,5 +93,5 @@ func (c *Client) Close() {
 
 // Some of the rocketchat objects need unique IDs specified by the client
 func (c *Client) newRandomId() string {
-	return fmt.Sprintf("%x%x", rand.Uint64(), time.Now().UTC().UnixNano())
+	return fmt.Sprintf("%f", rand.Float64())
 }

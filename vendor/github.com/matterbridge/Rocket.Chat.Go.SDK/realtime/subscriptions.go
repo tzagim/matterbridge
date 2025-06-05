@@ -2,6 +2,7 @@ package realtime
 
 import (
 	"fmt"
+	"log"
 
 	"github.com/gopackage/ddp"
 )
@@ -13,7 +14,7 @@ import (
 func (c *Client) Sub(name string, args ...interface{}) (chan string, error) {
 
 	if args == nil {
-		//log.Println("no args passed")
+		log.Println("no args passed")
 		if err := c.ddp.Sub(name); err != nil {
 			return nil, err
 		}
