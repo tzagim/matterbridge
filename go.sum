@@ -180,6 +180,8 @@ github.com/kettek/apng v0.0.0-20191108220231-414630eed80f h1:dnCYnTSltLuPMfc7dMr
 github.com/kettek/apng v0.0.0-20191108220231-414630eed80f/go.mod h1:x78/VRQYKuCftMWS0uK5e+F5RJ7S4gSlESRWI0Prl6Q=
 github.com/keybase/go-keybase-chat-bot v0.0.0-20221220212439-e48d9abd2c20 h1:imPu/fy8VhpzD318SnouRyvIgJAoouEyph6+7XAZbbk=
 github.com/keybase/go-keybase-chat-bot v0.0.0-20221220212439-e48d9abd2c20/go.mod h1:Yan1Krk0q1FglHdCkNrF5hFQ4Sgq8LnuG4gI2U4xQAk=
+github.com/keybase/go-keybase-chat-bot v0.0.0-20250106203511-859265729a56 h1:w8ikAizh5hbXZxBXbees5iOxOoi7nH/qp1lJQ3pOPiY=
+github.com/keybase/go-keybase-chat-bot v0.0.0-20250106203511-859265729a56/go.mod h1:cmXzSxB8TNJdxMKcmywTHsbv+H3WZ/92lP9nyEbCGNQ=
 github.com/kisielk/gotool v1.0.0/go.mod h1:XhKaO+MFFWcvkIS/tQcRk01m1F5IRFswLeQ+oQHNcck=
 github.com/klauspost/compress v1.17.9 h1:6KIumPrER1LHsvBVuDa0r5xaG0Es51mhhB9BQB2qeMA=
 github.com/klauspost/compress v1.17.9/go.mod h1:Di0epgTjJY877eYKx5yC51cX2A2Vl2ibi7bDH9ttBbw=

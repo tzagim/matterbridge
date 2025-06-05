@@ -176,8 +176,8 @@ github.com/jpillora/backoff
 # github.com/kettek/apng v0.0.0-20191108220231-414630eed80f
 ## explicit
 github.com/kettek/apng
-# github.com/keybase/go-keybase-chat-bot v0.0.0-20221220212439-e48d9abd2c20
-## explicit; go 1.19
+# github.com/keybase/go-keybase-chat-bot v0.0.0-20250106203511-859265729a56
+## explicit; go 1.21
 github.com/keybase/go-keybase-chat-bot/kbchat
 github.com/keybase/go-keybase-chat-bot/kbchat/types/chat1
 github.com/keybase/go-keybase-chat-bot/kbchat/types/gregor1
