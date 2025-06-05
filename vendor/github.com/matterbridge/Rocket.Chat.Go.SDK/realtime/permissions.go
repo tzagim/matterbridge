@@ -1,8 +1,10 @@
 package realtime
 
 import (
+	"log"
+
 	"github.com/Jeffail/gabs"
-	"github.com/matterbridge/Rocket.Chat.Go.SDK/models"
+	"github.com/RocketChat/Rocket.Chat.Go.SDK/models"
 )
 
 // GetPermissions gets permissions
@@ -46,9 +48,9 @@ func (c *Client) GetUserRoles() error {
 
 	document, _ := gabs.Consume(rawResponse)
 
-	_, err = document.Children()
+	roles, err := document.Children()
 	// TODO: Figure out if this function is even useful if so return it
-	//log.Println(roles)
+	log.Println(roles)
 
 	return nil
 }

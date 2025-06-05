@@ -1,8 +1,10 @@
 package realtime
 
 import (
+	"log"
+
 	"github.com/Jeffail/gabs"
-	"github.com/matterbridge/Rocket.Chat.Go.SDK/models"
+	"github.com/RocketChat/Rocket.Chat.Go.SDK/models"
 )
 
 func (c *Client) GetChannelId(name string) (string, error) {
@@ -11,7 +13,7 @@ func (c *Client) GetChannelId(name string) (string, error) {
 		return "", err
 	}
 
-	//log.Println(rawResponse)
+	log.Println(rawResponse)
 
 	return rawResponse.(string), nil
 }
@@ -72,7 +74,6 @@ func (c *Client) GetChannelSubscriptions() ([]models.ChannelSubscription, error)
 			DisplayName: stringOrZero(sub.Path("fname").Data()),
 			Open:        sub.Path("open").Data().(bool),
 			Type:        stringOrZero(sub.Path("t").Data()),
-			RoomId:      stringOrZero(sub.Path("rid").Data()),
 			User: models.User{
 				ID:       stringOrZero(sub.Path("u._id").Data()),
 				UserName: stringOrZero(sub.Path("u.username").Data()),
