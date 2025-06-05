@@ -81,6 +81,3 @@ linters:
         - valSwap
         - wrapperFunc
         - yodaStyleExpr
-
-output:
-  format: colored-line-number
