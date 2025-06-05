@@ -113,8 +113,9 @@ func (b *Bkeybase) Send(msg config.Message) (string, error) {
 	}
 
 	// Check if the response contains a valid message ID
-	if resp.Result.MessageID == nil {
+	if resp.Result.MessageID == 0 {
 		return "", nil
 	}
-	return strconv.Itoa(int(*resp.Result.MessageID)), err
+	return strconv.Itoa(resp.Result.MessageID), err
+
 }
