@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strconv"
 
-	"github.com/42wim/matterbridge/bridge/config"
+	"github.com/tzagim/matterbridge/bridge/config"
 	"github.com/Philipp15b/go-steam"
 	"github.com/Philipp15b/go-steam/protocol/steamlang"
 )

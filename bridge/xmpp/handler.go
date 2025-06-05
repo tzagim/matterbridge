@@ -1,8 +1,8 @@
 package bxmpp
 
 import (
-	"github.com/42wim/matterbridge/bridge/config"
-	"github.com/42wim/matterbridge/bridge/helper"
+	"github.com/tzagim/matterbridge/bridge/config"
+	"github.com/tzagim/matterbridge/bridge/helper"
 	"github.com/matterbridge/go-xmpp"
 )
 

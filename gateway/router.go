@@ -5,9 +5,9 @@ import (
 	"sync"
 	"time"
 
-	"github.com/42wim/matterbridge/bridge"
-	"github.com/42wim/matterbridge/bridge/config"
-	"github.com/42wim/matterbridge/gateway/samechannel"
+	"github.com/tzagim/matterbridge/bridge"
+	"github.com/tzagim/matterbridge/bridge/config"
+	"github.com/tzagim/matterbridge/gateway/samechannel"
 	"github.com/sirupsen/logrus"
 )
 
@@ -60,7 +60,7 @@ func NewRouter(rootLogger *logrus.Logger, cfg config.Config, bridgeMap map[strin
 func (r *Router) Start() error {
 	m := make(map[string]*bridge.Bridge)
 	if len(r.Gateways) == 0 {
-		return fmt.Errorf("no [[gateway]] configured. See https://github.com/42wim/matterbridge/wiki/How-to-create-your-config for more info")
+		return fmt.Errorf("no [[gateway]] configured. See https://github.com/tzagim/matterbridge/wiki/How-to-create-your-config for more info")
 	}
 	for _, gw := range r.Gateways {
 		r.logger.Infof("Parsing gateway %s", gw.Name)

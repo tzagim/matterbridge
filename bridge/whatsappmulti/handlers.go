@@ -9,8 +9,8 @@ import (
 	"mime"
 	"strings"
 
-	"github.com/42wim/matterbridge/bridge/config"
-	"github.com/42wim/matterbridge/bridge/helper"
+	"github.com/tzagim/matterbridge/bridge/config"
+	"github.com/tzagim/matterbridge/bridge/helper"
 
 	"go.mau.fi/whatsmeow/binary/proto"
 	"go.mau.fi/whatsmeow/types"

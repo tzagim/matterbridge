@@ -3,7 +3,7 @@
 package bridgemap
 
 import (
-	bwhatsapp "github.com/42wim/matterbridge/bridge/whatsappmulti"
+	bwhatsapp "github.com/tzagim/matterbridge/bridge/whatsappmulti"
 )
 
 func init() {

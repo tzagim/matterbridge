@@ -8,8 +8,8 @@ import (
 	"strings"
 	"unicode/utf16"
 
-	"github.com/42wim/matterbridge/bridge/config"
-	"github.com/42wim/matterbridge/bridge/helper"
+	"github.com/tzagim/matterbridge/bridge/config"
+	"github.com/tzagim/matterbridge/bridge/helper"
 	"github.com/davecgh/go-spew/spew"
 	tgbotapi "github.com/matterbridge/telegram-bot-api/v6"
 )
