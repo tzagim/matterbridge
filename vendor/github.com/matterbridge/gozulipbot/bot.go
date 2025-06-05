@@ -10,15 +10,14 @@ import (
 )
 
 type Bot struct {
-	APIKey    string
-	APIURL    string
-	Email     string
-	Queues    []*Queue
-	Streams   []string
-	Client    Doer
-	Backoff   time.Duration
-	Retries   int64
-	UserAgent string
+	APIKey  string
+	APIURL  string
+	Email   string
+	Queues  []*Queue
+	Streams []string
+	Client  Doer
+	Backoff time.Duration
+	Retries int64
 }
 
 type Doer interface {
@@ -78,26 +77,6 @@ func (b *Bot) GetStreams() ([]string, error) {
 	return streams, nil
 }
 
-// GetStreams returns a list of all public streams
-func (b *Bot) GetRawStreams() (StreamJSON, error) {
-	var sj StreamJSON
-	resp, err := b.GetStreamList()
-	if err != nil {
-		return sj, err
-	}
-	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		return sj, err
-	}
-
-	err = json.Unmarshal(body, &sj)
-	if err != nil {
-		return sj, err
-	}
-	return sj, nil
-}
-
 // Subscribe will set the bot to receive messages from the given streams.
 // If no streams are given, it will subscribe the bot to the streams in the bot struct.
 func (b *Bot) Subscribe(streams []string) (*http.Response, error) {
@@ -118,11 +97,6 @@ func (b *Bot) Subscribe(streams []string) (*http.Response, error) {
 	body := "subscriptions=" + string(bodyBts)
 
 	req, err := b.constructRequest("POST", "users/me/subscriptions", body)
-	if b.UserAgent != "" {
-		req.Header.Set("User-Agent", b.UserAgent)
-	} else {
-		req.Header.Set("User-Agent", fmt.Sprintf("gozulipbot/%s", Release))
-	}
 	if err != nil {
 		return nil, err
 	}
@@ -180,20 +154,6 @@ func (b *Bot) RegisterEvents(ets []EventType, n Narrow) (*Queue, error) {
 		return nil, err
 	}
 	defer resp.Body.Close()
-	if resp.StatusCode != 200 {
-		// Try to parse the error out of the body
-		body, err := ioutil.ReadAll(resp.Body)
-		if err == nil {
-			var jsonErr map[string]string
-			err = json.Unmarshal(body, &jsonErr)
-			if err == nil {
-				if msg, ok := jsonErr["msg"]; ok {
-					return nil, fmt.Errorf("Failed to register: %s", msg)
-				}
-			}
-		}
-		return nil, fmt.Errorf("Got non-200 response code when registering: %d", resp.StatusCode)
-	}
 
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
@@ -204,6 +164,10 @@ func (b *Bot) RegisterEvents(ets []EventType, n Narrow) (*Queue, error) {
 	err = json.Unmarshal(body, q)
 	if err != nil {
 		return nil, err
+	}
+
+	if q.LastEventID < q.MaxMessageID {
+		q.LastEventID = q.MaxMessageID
 	}
 
 	b.Queues = append(b.Queues, q)
@@ -248,7 +212,7 @@ func (b *Bot) RawRegisterEvents(ets []EventType, n Narrow) (*http.Response, erro
 	if n != "" {
 		query += fmt.Sprintf("&narrow=%s", n)
 	}
-	query += fmt.Sprintf("&all_public_streams=true")
+
 	req, err := b.constructRequest("POST", "register", query)
 	if err != nil {
 		return nil, err
