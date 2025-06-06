@@ -22,6 +22,8 @@ github.com/Philipp15b/go-steam v1.0.1-0.20200727090957-6ae9b3c0a560 h1:ItnC9PEEM
 github.com/Philipp15b/go-steam v1.0.1-0.20200727090957-6ae9b3c0a560/go.mod h1:o38AwUFFS4gzbjSoyIgrZ1h9UeDrKwcci1Pj6baifvI=
 github.com/Rhymen/go-whatsapp v0.1.2-0.20211102134409-31a2e740845c h1:4mIZQXKYBymQ9coA82nNyG/CjicMNLBZ8cPVrhNUM3g=
 github.com/Rhymen/go-whatsapp v0.1.2-0.20211102134409-31a2e740845c/go.mod h1:DNSFRLFDFIqm2+0aJzSOVfn25020vldM4SRqz6YtLgI=
+github.com/Rhymen/go-whatsapp v0.1.2-0.20241003130915-b1ab8267e905 h1:jLqn8QE+AJPSvskkGHSG64m9TBXTBJgkrI1ISKUytxQ=
+github.com/Rhymen/go-whatsapp v0.1.2-0.20241003130915-b1ab8267e905/go.mod h1:DNSFRLFDFIqm2+0aJzSOVfn25020vldM4SRqz6YtLgI=
 github.com/SevereCloud/vksdk/v2 v2.17.0 h1:Wll63JSuBTdE0L7+V/PMn9PyhLrWSWIjX76XpWbXTFw=
 github.com/SevereCloud/vksdk/v2 v2.17.0/go.mod h1:y3q3XAdqnQ2Wf0B+Wi7qNdqJc5ZZsz4ve+DoSQsrChk=
 github.com/alexcesaro/log v0.0.0-20150915221235-61e686294e58/go.mod h1:YNfsMyWSs+h+PaYkxGeMVmVCX75Zj/pqdjbu12ciCYE=
