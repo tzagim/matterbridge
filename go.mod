@@ -21,7 +21,7 @@ require (
 	github.com/labstack/echo/v4 v4.12.0
 	github.com/lrstanley/girc v0.0.0-20240823210506-80555f2adb03
 	github.com/matterbridge/Rocket.Chat.Go.SDK v0.0.0-20211016222428-79310a412696
-	github.com/matterbridge/go-xmpp v0.0.0-20240523230155-7154bfeb76e8
+	github.com/matterbridge/go-xmpp v0.0.0-20180131083630-7ec2b8b7def6
 	github.com/matterbridge/gomatrix v0.0.0-20220411225302-271e5088ea27
 	github.com/matterbridge/gozulipbot v0.0.0-20211023205727-a19d6c1f3b75
 	github.com/matterbridge/logrus-prefixed-formatter v0.5.3-0.20200523233437-d971309a77ba
