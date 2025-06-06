@@ -161,6 +161,8 @@ type Client struct {
 	// Should SubscribePresence return an error if no privacy token is stored for the user?
 	ErrorOnSubscribePresenceWithoutToken bool
 
+	SendReportingTokens bool
+
 	BackgroundEventCtx context.Context
 
 	phoneLinkingCache *phoneLinkingCache
