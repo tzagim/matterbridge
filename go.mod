@@ -9,7 +9,7 @@ require (
 	github.com/bwmarrin/discordgo v0.28.1
 	github.com/d5/tengo/v2 v2.17.0
 	github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc
-	github.com/fsnotify/fsnotify v1.7.0
+	github.com/fsnotify/fsnotify v1.9.0
 	github.com/gomarkdown/markdown v0.0.0-20250311123330-531bef5e742b
 	github.com/google/gops v0.3.27
 	github.com/gorilla/schema v1.4.1
